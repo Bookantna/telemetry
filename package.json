@@ -1,0 +1,30 @@
+{
+  "name": "f1-25-telemetry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal F1 25 telemetry: a live dashboard for your iPad and a recorder for every lap.",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "npm run build && node server/main.ts",
+    "serve": "node server/main.ts",
+    "build": "vite build",
+    "dev:server": "node --watch server/main.ts",
+    "dev:web": "vite",
+    "demo": "node server/demo/demo-feed.ts",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@types/node": "^26.6.5",
+    "@types/ws": "^8.18.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}
