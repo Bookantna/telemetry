@@ -42,7 +42,7 @@ export class TrackMapView {
   private lastFitAt = 0;
   /** Top-left of the close-up, in the corner of the panel with the least track under it. */
   private closeUpAt: { x: number; y: number } | null = null;
-  private colours = { track: '', trackEdge: '', you: '', ref: '', panel: '', ink: '', ink3: '' };
+  private colours = { track: '', trackEdge: '', inset: '', hairline: '', you: '', ref: '', panel: '', ink: '', ink3: '' };
 
   constructor(state: ClientState) {
     this.state = state;
@@ -155,8 +155,10 @@ export class TrackMapView {
 
   private readColours(): void {
     this.colours = {
-      track: '#20242a',
-      trackEdge: '#2b3038',
+      track: cssVar('--track'),
+      trackEdge: cssVar('--track-edge'),
+      inset: cssVar('--inset'),
+      hairline: cssVar('--hairline'),
       you: cssVar('--you'),
       ref: cssVar('--ref'),
       panel: cssVar('--panel'),
@@ -224,9 +226,9 @@ export class TrackMapView {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.save();
     roundRect(ctx, bx, by, bw, bh, 10);
-    ctx.fillStyle = '#0b0c0f';
+    ctx.fillStyle = this.colours.inset;
     ctx.fill();
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.09)';
+    ctx.strokeStyle = this.colours.hairline;
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.clip();

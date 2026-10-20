@@ -3,6 +3,7 @@ import { formatDelta, formatLapTime, formatSector } from '../../../shared/format
 import type { TimingRow } from '../../../shared/protocol.ts';
 import { h, icon, setText, setVar, toggle } from '../dom.ts';
 import type { ClientState } from '../state.ts';
+import { themePicker } from '../theme.ts';
 
 /** Delta bar range, seconds either side of zero. */
 const DELTA_RANGE = 1;
@@ -33,6 +34,7 @@ export class TopBar {
       h('div', { class: 'spacer' }),
       this.lap,
       this.conn,
+      themePicker(),
       h('a', { class: 'icon-button', attrs: { href: '#/laps', title: 'Recorded Laps', 'aria-label': 'Recorded Laps' } }, icon('list')),
     );
   }
