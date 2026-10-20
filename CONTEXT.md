@@ -54,6 +54,10 @@ _Avoid_: circuit map, minimap
 The screen you use after a session to compare Recorded Laps with each other.
 _Avoid_: post-session view, review
 
+**Lap Replay**:
+Playing back one Recorded Lap at a speed you choose, so you can see where on the track you used the brake and the throttle.
+_Avoid_: trail brake record (Trail Braking is the technique, not the feature), ghost (that is the game's own feature), playback
+
 ### What the app records
 
 **Recorded Lap**:
