@@ -46,6 +46,8 @@ The dashboard also works on a phone (a reduced layout: Delta, Input Trace and ty
 
 Every lap is saved in `data/telemetry.db`, labelled valid or invalid, complete or incomplete, out-lap or in-lap. Tap the list icon at the top right of the dashboard to see them all; delete a lap with two taps.
 
+Tap a lap to open **Lap Replay**: the car drives the lap again on the Track Map with your throttle and brake below it, at 0.25× to 4× speed. Drag the bar to jump to any corner. On the PC, Space plays and pauses and ← → jump a second.
+
 A **Best Lap** is kept separately for each combination of circuit, Car Generation (2025 or 2026 cars), Session Type and Conditions (dry or wet, decided by your tyres). In Time Trial, Delta compares against your all-time Best Lap. In practice, qualifying and races, it compares against your fastest valid lap of that session.
 
 The **Track Map** for a circuit is drawn from your first full lap there. Use the buttons on the map to rotate or mirror it; the iPad remembers this per circuit.

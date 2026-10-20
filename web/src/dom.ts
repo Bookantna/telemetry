@@ -36,6 +36,8 @@ const ICONS: Record<string, string> = {
   rotate: '<path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/>',
   flip: '<path d="M12 3v18"/><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/>',
   target: '<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/>',
+  play: '<path d="M7 5l12 7-12 7z"/>',
+  pause: '<path d="M9 5v14M15 5v14"/>',
 };
 
 export function icon(name: keyof typeof ICONS | string): SVGSVGElement {

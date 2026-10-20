@@ -1,4 +1,4 @@
-// Recorded Laps: every lap, newest session first, with a delete button.
+// Recorded Laps: every lap, newest session first, with a delete button. Tap a lap to replay it.
 
 import { SESSION_GROUP_NAMES, visualCompound } from '../../../shared/f1.ts';
 import { formatLapTime, formatSector } from '../../../shared/format.ts';
@@ -101,13 +101,6 @@ export function mountLaps(root: HTMLElement, state: ClientState): () => void {
   };
 
   const lapRow = (lap: LapSummary): HTMLElement => {
-    const tags = [
-      lap.isBest ? ['best', 'Best Lap'] : null,
-      !lap.valid ? ['invalid', 'Invalid'] : null,
-      !lap.complete ? ['', 'Incomplete'] : null,
-      lap.outLap ? ['', 'Out-lap'] : null,
-      lap.inLap ? ['', 'In-lap'] : null,
-    ].filter(Boolean) as [string, string][];
     const compound = visualCompound(lap.visualCompound);
     const timeClass = lap.isBest ? 'time-best' : !lap.valid ? 'time-invalid' : '';
     const del = h('button', { class: 'delete', text: 'Delete', attrs: { type: 'button' } });
@@ -134,16 +127,21 @@ export function mountLaps(root: HTMLElement, state: ClientState): () => void {
         del.textContent = 'Failed';
       }
     });
-    return h(
+    const row = h(
       'tr',
-      {},
-      h('td', { class: 'num', text: String(lap.lapNum) }),
+      { class: 'lap-row' },
+      h('td', { class: 'num' }, h('a', { text: String(lap.lapNum), attrs: { href: `#/laps/${lap.id}`, title: 'Replay this lap' } })),
       h('td', { class: `right num ${timeClass}`, text: lap.lapTimeMs === null ? '—' : formatLapTime(lap.lapTimeMs) }),
       ...lap.sectorsMs.map((ms) => h('td', { class: 'right num muted', text: formatSector(ms) })),
       h('td', {}, h('span', { class: 'compound', text: compound.short, attrs: { style: `--c:${compound.colour}`, title: compound.name } })),
-      h('td', {}, ...tags.map(([cls, text]) => h('span', { class: `tag ${cls}`, text }))),
+      h('td', {}, ...lapTags(lap)),
       h('td', { class: 'right' }, del),
     );
+    // The whole row opens Lap Replay; the link in the first cell is there for the keyboard.
+    row.addEventListener('click', (e) => {
+      if (!(e.target as Element).closest('a, button')) location.hash = `#/laps/${lap.id}`;
+    });
+    return row;
   };
 
   let refreshTimer: ReturnType<typeof setTimeout> | null = null;
@@ -166,4 +164,16 @@ export function mountLaps(root: HTMLElement, state: ClientState): () => void {
     state.lapListeners.delete(onLapsChanged);
     if (refreshTimer) clearTimeout(refreshTimer);
   };
+}
+
+/** Best Lap, Invalid, Incomplete, Out-lap and In-lap labels for a lap. */
+export function lapTags(lap: LapSummary): HTMLElement[] {
+  const tags = [
+    lap.isBest ? ['best', 'Best Lap'] : null,
+    !lap.valid ? ['invalid', 'Invalid'] : null,
+    !lap.complete ? ['', 'Incomplete'] : null,
+    lap.outLap ? ['', 'Out-lap'] : null,
+    lap.inLap ? ['', 'In-lap'] : null,
+  ].filter(Boolean) as [string, string][];
+  return tags.map(([cls, text]) => h('span', { class: `tag ${cls}`, text }));
 }
