@@ -3,6 +3,9 @@ import { mountLaps } from './laps/laps.ts';
 import { mountDashboard } from './live/dashboard.ts';
 import { connect } from './net.ts';
 import { ClientState } from './state.ts';
+import { applyTheme } from './theme.ts';
+
+applyTheme();
 
 const root = document.getElementById('app')!;
 const state = new ClientState();
@@ -22,4 +25,5 @@ function route(): void {
 }
 
 window.addEventListener('hashchange', route);
+window.addEventListener('themechange', route);
 route();

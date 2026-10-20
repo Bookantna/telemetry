@@ -6,6 +6,7 @@ import type { LapSummary } from '../../../shared/protocol.ts';
 import { h, icon } from '../dom.ts';
 import { generationLabel } from '../live/panels.ts';
 import type { ClientState } from '../state.ts';
+import { themePicker } from '../theme.ts';
 
 export function mountLaps(root: HTMLElement, state: ClientState): () => void {
   let laps: LapSummary[] = [];
@@ -31,6 +32,7 @@ export function mountLaps(root: HTMLElement, state: ClientState): () => void {
         h('a', { class: 'icon-button', attrs: { href: '#/', title: 'Back to the dashboard', 'aria-label': 'Back to the dashboard' } }, icon('back')),
         h('h1', { text: 'Recorded Laps' }),
         count,
+        themePicker(),
       ),
       h('div', { class: 'filters' }, trackFilter, groupFilter, h('label', {}, validOnly, 'Valid laps only')),
       body,

@@ -25,10 +25,108 @@
   --you: #14a3b8;
   --ref: #9a6cf0;
   --brand: #dc2626;
+  --track: #20242a;
+  --track-edge: #2b3038;
+  --inset: #0b0c0f;
 
   --radius: 10px;
   --gap: 10px;
   --font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* Themes override colour tokens only; Pit Wall (above) is the default.
+   Canvas code reads these via cssVar, so keep them plain colours (no color-mix). */
+[data-theme='midnight'] {
+  --page: #000;
+  --panel: #07080a;
+  --panel-raised: #0e1013;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --grid: #16191e;
+  --axis: #23272e;
+  --track: #15181c;
+  --track-edge: #20242a;
+  --inset: #000;
+}
+
+[data-theme='paddock'] {
+  color-scheme: light;
+  --page: #eceef1;
+  --panel: #ffffff;
+  --panel-raised: #f4f5f7;
+  --hairline: rgba(0, 0, 0, 0.09);
+  --grid: #e3e6ea;
+  --axis: #c9ced6;
+  --ink: #12151a;
+  --ink-2: #3e4552;
+  --ink-3: #687180;
+  --good: #15803d;
+  --warn: #b86e00;
+  --bad: #d32f35;
+  --best: #7c3aed;
+  --cold: #2563eb;
+  --throttle: #1d8075;
+  --brake: #d32f35;
+  --you: #0b8597;
+  --ref: #7c4ddb;
+  --track: #d7dbe1;
+  --track-edge: #c3c8d0;
+  --inset: #f4f5f7;
+}
+
+[data-theme='papaya'] {
+  --page: #0d0a08;
+  --panel: #16120f;
+  --panel-raised: #1e1915;
+  --grid: #2a231d;
+  --axis: #372e26;
+  --ink-2: #c4b9ae;
+  --ink-3: #8c8075;
+  --you: #ff8000;
+  --ref: #47c7fc;
+  --brand: #ff8000;
+  --track: #251f1a;
+  --track-edge: #322a23;
+  --inset: #0e0b09;
+}
+
+[data-theme='green'] {
+  --page: #070c0a;
+  --panel: #0e1613;
+  --panel-raised: #141e1a;
+  --grid: #1d2a25;
+  --axis: #283832;
+  --ink-2: #b2c2bb;
+  --ink-3: #7a8c84;
+  --you: #00d2a0;
+  --ref: #e0c35a;
+  --brand: #00594f;
+  --track: #1a2420;
+  --track-edge: #24312c;
+  --inset: #080d0b;
+}
+
+[data-theme='contrast'] {
+  --page: #000;
+  --panel: #000;
+  --panel-raised: #111;
+  --hairline: rgba(255, 255, 255, 0.45);
+  --grid: #333;
+  --axis: #666;
+  --ink: #fff;
+  --ink-2: #e6e6e6;
+  --ink-3: #c2c2c2;
+  --good: #3dff7a;
+  --warn: #ffd000;
+  --bad: #ff4d55;
+  --best: #c9a3ff;
+  --cold: #6fb0ff;
+  --throttle: #3dffb0;
+  --brake: #ff4d55;
+  --you: #00e5ff;
+  --ref: #ff7ad9;
+  --track: #2a2a2a;
+  --track-edge: #6a6a6a;
+  --inset: #000;
 }
 
 * {
@@ -156,6 +254,7 @@ button {
     height: 170px;
   }
   .top .chips,
+  .top .theme-picker,
   .top .session-name,
   .session-panel {
     display: none;
@@ -241,6 +340,7 @@ button {
   height: 26px;
   border-radius: 7px;
   background: var(--brand);
+  color: #fff;
   font-weight: 700;
   font-size: 14px;
 }
@@ -332,13 +432,29 @@ button {
 
 .conn.live .dot {
   background: var(--good);
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 18%, transparent);
 }
 .conn.waiting .dot {
   background: var(--warn);
 }
 .conn.offline .dot {
   background: var(--bad);
+}
+
+.theme-picker {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.laps-head .theme-picker {
+  margin-left: auto;
 }
 
 .icon-button {
@@ -497,8 +613,8 @@ button {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
-  background: rgba(229, 72, 77, 0.14);
-  color: #ff8a8d;
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
+  color: color-mix(in srgb, var(--bad) 65%, var(--ink));
 }
 
 .lap-flag.show {
@@ -631,7 +747,7 @@ button {
 
 .tower-row.player {
   background: var(--panel-raised);
-  box-shadow: inset 0 0 0 1px rgba(20, 163, 184, 0.45);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--you) 45%, transparent);
 }
 
 .tower-row .pos {
@@ -717,7 +833,7 @@ button {
 .map-tools .icon-button {
   width: 30px;
   height: 30px;
-  background: rgba(18, 20, 24, 0.85);
+  background: color-mix(in srgb, var(--panel) 85%, transparent);
 }
 
 .legend {
@@ -847,7 +963,7 @@ button {
 
 .pill.ready {
   color: var(--good);
-  border-color: rgba(34, 197, 94, 0.5);
+  border-color: color-mix(in srgb, var(--good) 50%, transparent);
 }
 
 .pill.active {
@@ -1023,8 +1139,8 @@ button {
   font-weight: 650;
   padding: 3px 7px;
   border-radius: 5px;
-  color: #ffc56b;
-  background: rgba(250, 178, 25, 0.12);
+  color: color-mix(in srgb, var(--warn) 65%, var(--ink));
+  background: color-mix(in srgb, var(--warn) 12%, transparent);
 }
 
 /* ---------- Waiting overlay ---------- */
@@ -1035,7 +1151,7 @@ button {
   display: none;
   place-items: center;
   padding: 24px;
-  background: rgba(6, 7, 9, 0.78);
+  background: color-mix(in srgb, var(--page) 78%, transparent);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 10;
@@ -1068,7 +1184,7 @@ button {
 }
 
 .setup .error {
-  color: #ff8a8d;
+  color: color-mix(in srgb, var(--bad) 65%, var(--ink));
 }
 
 .settings {
@@ -1207,7 +1323,7 @@ button {
 .laps-table .time-invalid {
   color: var(--ink-3);
   text-decoration: line-through;
-  text-decoration-color: rgba(229, 72, 77, 0.7);
+  text-decoration-color: color-mix(in srgb, var(--bad) 70%, transparent);
 }
 
 .tag {
@@ -1224,12 +1340,12 @@ button {
 }
 
 .tag.best {
-  color: #d9c7ff;
-  background: rgba(167, 123, 255, 0.18);
+  color: color-mix(in srgb, var(--best) 65%, var(--ink));
+  background: color-mix(in srgb, var(--best) 18%, transparent);
 }
 .tag.invalid {
-  color: #ff9c9e;
-  background: rgba(229, 72, 77, 0.14);
+  color: color-mix(in srgb, var(--bad) 65%, var(--ink));
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
 }
 
 .delete {
