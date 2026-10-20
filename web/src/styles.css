@@ -1435,3 +1435,109 @@ button {
   position: relative;
   min-width: 0;
 }
+
+/* ---------- Lap Replay ---------- */
+
+.laps-table .lap-row {
+  cursor: pointer;
+}
+
+.laps-table .lap-row:hover td {
+  background: var(--panel);
+}
+
+.laps-table .lap-row a {
+  color: inherit;
+}
+
+/* One column on every screen: header, map, Input Trace, controls. */
+.replay-page {
+  display: grid;
+  height: 100dvh;
+  padding: calc(var(--gap) + env(safe-area-inset-top)) calc(var(--gap) + env(safe-area-inset-right))
+    calc(var(--gap) + env(safe-area-inset-bottom)) calc(var(--gap) + env(safe-area-inset-left));
+  gap: var(--gap);
+  grid-template-rows: auto minmax(0, 1fr) 170px auto;
+}
+
+.replay-page .laps-head {
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-bottom: 0;
+}
+
+.replay-page .map-panel {
+  display: block;
+  grid-area: auto;
+}
+
+.replay-page .trace-panel {
+  grid-area: auto;
+}
+
+/* The faint whole-lap line needs no "Reference Lap" key, and the live map's hints do not apply. */
+.replay-page .legend,
+.replay-page .map-message {
+  display: none;
+}
+
+.replay-title {
+  font-weight: 650;
+  color: var(--ink-2);
+}
+
+.replay-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.replay-controls .play {
+  width: 44px;
+  height: 44px;
+}
+
+.replay-controls .play svg {
+  width: 20px;
+  height: 20px;
+}
+
+.replay-controls .seek {
+  flex: 1 1 220px;
+  min-width: 0;
+  accent-color: var(--you);
+}
+
+.replay-clock,
+.replay-readout {
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.replay-clock {
+  color: var(--ink-2);
+}
+
+.speeds {
+  display: flex;
+  gap: 4px;
+}
+
+.speeds button {
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  background: var(--panel);
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.speeds button[aria-pressed='true'] {
+  color: var(--ink);
+  background: var(--panel-raised);
+  border-color: var(--axis);
+}

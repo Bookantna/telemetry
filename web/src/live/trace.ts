@@ -3,7 +3,14 @@
 // are easy to see.
 
 import { cssVar, fitCanvas, h, setText } from '../dom.ts';
-import { TRACE_SECONDS, type ClientState, type TracePoint } from '../state.ts';
+import type { LiveFrame } from '../../../shared/protocol.ts';
+import { TRACE_SECONDS, type TracePoint } from '../state.ts';
+
+/** What the trace draws from: the live ClientState, or the moment a Lap Replay is at. */
+export interface TraceState {
+  frame: Pick<LiveFrame, 't' | 'thr' | 'brk'> | null;
+  trace: TracePoint[];
+}
 
 const PAD_TOP = 14;
 const PAD_BOTTOM = 22;
@@ -15,10 +22,10 @@ export class InputTrace {
   private readonly ctx: CanvasRenderingContext2D;
   private readonly throttleValue = h('span', { class: 'value num', text: '—' });
   private readonly brakeValue = h('span', { class: 'value num', text: '—' });
-  private readonly state: ClientState;
+  private readonly state: TraceState;
   private colours: Record<'throttle' | 'brake' | 'grid' | 'axis' | 'panel' | 'ink3', string> | null = null;
 
-  constructor(state: ClientState) {
+  constructor(state: TraceState) {
     this.state = state;
     this.ctx = this.canvas.getContext('2d')!;
     this.el = h(

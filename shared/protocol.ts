@@ -26,6 +26,17 @@ export interface LapSummary {
   isBest: boolean;
 }
 
+/** The sample channels Lap Replay needs (server/record/samples.ts). */
+export const REPLAY_CHANNELS = ['sessionTime', 'lapMs', 'x', 'z', 'speed', 'throttle', 'brake', 'gear'] as const;
+
+/** One Recorded Lap for Lap Replay: its 60 Hz samples, one array per channel. */
+export interface LapReplay {
+  lap: LapSummary;
+  /** The circuit's Track Map, when one has been drawn. */
+  trackMap: number[] | null;
+  samples: Record<(typeof REPLAY_CHANNELS)[number], number[]>;
+}
+
 export interface FeedStatus {
   receiving: boolean;
   format: UdpFormat | null;

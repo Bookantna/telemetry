@@ -74,6 +74,10 @@ export function generationLabel(g: string): string {
   return g === '2025' || g === '2026' ? `${g} cars` : g;
 }
 
+export function gearLabel(gear: number): string {
+  return gear === 0 ? 'N' : gear < 0 ? 'R' : String(gear);
+}
+
 // ---------------------------------------------------------------- Delta
 
 export class DeltaPanel {
@@ -380,7 +384,7 @@ export class CarPanel {
 
     const lit = f ? Math.round((f.revPct / 100) * 15) : 0;
     this.revs.forEach((led, i) => toggle(led, 'on', i < lit));
-    setText(this.gear, !f ? '–' : f.gear === 0 ? 'N' : f.gear < 0 ? 'R' : String(f.gear));
+    setText(this.gear, f ? gearLabel(f.gear) : '–');
     setText(this.speed.firstChild as Element, f ? String(f.speed) : '0');
 
     toggle(this.drs, 'active', Boolean(f?.drs));

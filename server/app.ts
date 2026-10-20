@@ -1,7 +1,7 @@
 // Wires the Telemetry Feed through recording, the Reference Lap and the Track Map,
 // and streams the result to every connected Live Dashboard.
 
-import type { ServerMessage, TimingInfo } from '../shared/protocol.ts';
+import { REPLAY_CHANNELS, type LapReplay, type ServerMessage, type TimingInfo } from '../shared/protocol.ts';
 import { parsePacket } from './f1/parse.ts';
 import type { EventData } from './f1/types.ts';
 import { LiveState } from './live/state.ts';
@@ -109,6 +109,18 @@ export class App {
         this.send({ type: 'lapRemoved', id });
       }
       return deleted;
+    },
+    lapReplay: (id) => {
+      const lap = this.store.getLap(id);
+      if (!lap) return null;
+      const samples = this.store.lapSamples(id);
+      // Float32 values print with ~17 digits; 3 decimals (mm, ms) is plenty and a third the size.
+      const column = (c: (typeof REPLAY_CHANNELS)[number]) => samples.map((s) => Math.round(s[c] * 1000) / 1000);
+      return {
+        lap,
+        trackMap: this.maps.get(lap.trackId),
+        samples: Object.fromEntries(REPLAY_CHANNELS.map((c) => [c, column(c)])) as LapReplay['samples'],
+      };
     },
     info: () => this.info,
     snapshot: () => this.snapshot(),

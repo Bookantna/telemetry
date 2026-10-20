@@ -2,7 +2,18 @@
 // close-up that follows your car with the direction of travel pointing up.
 
 import { cssVar, fitCanvas, h, icon, toggle } from '../dom.ts';
-import type { ClientState } from '../state.ts';
+import type { LiveFrame, ReferenceInfo, SessionInfo } from '../../../shared/protocol.ts';
+
+/** What the map draws from: the live ClientState, or the moment a Lap Replay is at. */
+export interface MapState {
+  session: Pick<SessionInfo, 'trackId' | 'trackLength' | 'sector2Start' | 'sector3Start'> | null;
+  trackMap: number[] | null;
+  reference: Pick<ReferenceInfo, 'line'> | null;
+  currentLine: number[];
+  frame: Pick<LiveFrame, 'x' | 'z' | 'heading' | 'cars'> | null;
+  colours: Map<number, string>;
+  mapVersion: number;
+}
 
 interface Orientation {
   rot: number;
@@ -30,7 +41,7 @@ export class TrackMapView {
   private readonly message = h('div', { class: 'map-message' });
   private readonly refKey = h('span', {}, h('span', { class: 'key', attrs: { style: '--c: var(--ref)' } }), 'Reference Lap');
   private readonly closeUpButton: HTMLButtonElement;
-  private readonly state: ClientState;
+  private readonly state: MapState;
 
   private trackId = -1;
   private orientation: Orientation = { rot: 0, mirror: false };
@@ -44,7 +55,7 @@ export class TrackMapView {
   private closeUpAt: { x: number; y: number } | null = null;
   private colours = { track: '', trackEdge: '', inset: '', hairline: '', you: '', ref: '', panel: '', ink: '', ink3: '' };
 
-  constructor(state: ClientState) {
+  constructor(state: MapState) {
     this.state = state;
     this.ctx = this.canvas.getContext('2d')!;
     this.layerCtx = this.layer.getContext('2d')!;

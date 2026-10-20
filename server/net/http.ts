@@ -4,7 +4,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import { extname, join, normalize, sep } from 'node:path';
 import { WebSocketServer, type WebSocket } from 'ws';
-import type { ServerMessage } from '../../shared/protocol.ts';
+import type { LapReplay, ServerMessage } from '../../shared/protocol.ts';
 
 const CONTENT_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -24,6 +24,7 @@ const MAX_BUFFERED_BYTES = 512 * 1024;
 export interface ApiHandlers {
   listLaps(limit: number): unknown;
   deleteLap(id: number): boolean;
+  lapReplay(id: number): LapReplay | null;
   info(): unknown;
   /** Messages a newly connected dashboard needs to draw its first frame. */
   snapshot(): ServerMessage[];
@@ -98,6 +99,10 @@ export class WebServer {
       return sendJson(res, 200, this.api.listLaps(limit));
     }
     const lapMatch = /^\/api\/laps\/(\d+)$/.exec(url.pathname);
+    if (req.method === 'GET' && lapMatch) {
+      const replay = this.api.lapReplay(Number(lapMatch[1]));
+      return sendJson(res, replay ? 200 : 404, replay ?? { error: 'Not found' });
+    }
     if (req.method === 'DELETE' && lapMatch) {
       const deleted = this.api.deleteLap(Number(lapMatch[1]));
       return sendJson(res, deleted ? 200 : 404, { deleted });
