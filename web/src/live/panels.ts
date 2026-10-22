@@ -35,6 +35,7 @@ export class TopBar {
       this.lap,
       this.conn,
       themePicker(),
+      h('a', { class: 'icon-button', attrs: { href: '#/setups', title: 'Setups', 'aria-label': 'Setups' } }, icon('sliders')),
       h('a', { class: 'icon-button', attrs: { href: '#/laps', title: 'Recorded Laps', 'aria-label': 'Recorded Laps' } }, icon('list')),
     );
   }

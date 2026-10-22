@@ -3,6 +3,7 @@ import { mountLaps } from './laps/laps.ts';
 import { mountReplay } from './laps/replay.ts';
 import { mountDashboard } from './live/dashboard.ts';
 import { connect } from './net.ts';
+import { mountSetups } from './setups/setups.ts';
 import { ClientState } from './state.ts';
 import { applyTheme } from './theme.ts';
 
@@ -22,12 +23,15 @@ let unmount: (() => void) | null = null;
 
 function route(): void {
   unmount?.();
-  const replay = /^#\/laps\/(\d+)$/.exec(location.hash);
+  const hash = location.hash;
+  const replay = /^#\/laps\/(\d+)$/.exec(hash);
   unmount = replay
     ? mountReplay(root, Number(replay[1]))
-    : location.hash.startsWith('#/laps')
+    : hash.startsWith('#/laps')
       ? mountLaps(root, state)
-      : mountDashboard(root, state);
+      : hash.startsWith('#/setups')
+        ? mountSetups(root, state)
+        : mountDashboard(root, state);
 }
 
 window.addEventListener('hashchange', route);
