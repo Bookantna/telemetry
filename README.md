@@ -52,6 +52,10 @@ A **Best Lap** is kept separately for each combination of circuit, Car Generatio
 
 The **Track Map** for a circuit is drawn from your first full lap there. Use the buttons on the map to rotate or mirror it; the iPad remembers this per circuit.
 
+## Setups
+
+Tap the sliders icon at the top right for community baseline setups for every circuit, for both the 2025 and the 2026 cars, decoded from the [shared setup sheet](https://docs.google.com/spreadsheets/d/1fUZKqMpARGJ1XEvsmGlOtN2_NVPOqLehPNiLH-YyYSI). Each setting is listed the way the game's setup screen orders it, with quali and race values side by side and the race changes called out. It opens on the circuit you are driving.
+
 ## Using SimHub or another app at the same time
 
 Only one app on the PC can listen on the game's port. Let this app receive the data and pass a copy on:
